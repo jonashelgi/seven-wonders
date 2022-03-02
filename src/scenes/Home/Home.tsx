@@ -2,10 +2,9 @@ import React, { useState } from "react";
 import {
   Box,
   Container,
-  Grid,
-  GridItem,
   Button,
   NumberInput,
+  NumberInputField,
   Input,
   Text,
   SimpleGrid,
@@ -18,6 +17,7 @@ const Home = () => {
   const { control, handleSubmit } = useForm({
     defaultValues: {
       name: "",
+      total: 0,
       score: {
         val1: 0,
         val2: 0,
@@ -27,6 +27,7 @@ const Home = () => {
   });
 
   const onSubmit = (data: any) => {
+    console.log(data);
     setInfo((info) => [...info, data]);
     players.push(data);
   };
@@ -39,21 +40,27 @@ const Home = () => {
   };
 
   return (
-    <Container size={"xl"}>
-      <SimpleGrid>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <Controller
-            name="name"
-            control={control}
-            render={({ field }) => <Input {...field} />}
-          />
-          <Controller
-            name="score.val1"
-            control={control}
-            render={({ field }) => <NumberInput {...field} />}
-          />
-          <Button type="submit">Add</Button>
-        </form>
+    <Container maxW={"8xl"}>
+      <SimpleGrid minChildWidth="120px" spacing="40px">
+        <Box>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <Controller
+              name="name"
+              control={control}
+              render={({ field }) => <Input {...field} />}
+            />
+            <Controller
+              name="score.val1"
+              control={control}
+              render={({ field }) => (
+                <NumberInput {...field}>
+                  <NumberInputField />
+                </NumberInput>
+              )}
+            />
+            <Button type="submit">Add</Button>
+          </form>
+        </Box>
         <Box>
           {info.map((data: any, index: number) => (
             <div key={index}>
